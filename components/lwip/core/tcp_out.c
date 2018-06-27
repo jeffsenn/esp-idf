@@ -1093,6 +1093,10 @@ tcp_output(struct tcp_pcb *pcb)
         useg = seg;
       /* unacked list is not empty? */
       } else {
+        //fix for possible bug in LWIP - not sure what is going wrong... 
+        if(!useg && seg == pcb->unacked) {
+          useg = seg;
+        } else 
         /* In the case of fast retransmit, the packet should not go to the tail
          * of the unacked queue, but rather somewhere before it. We need to check for
          * this case. -STJ Jul 27, 2004 */
