@@ -1093,8 +1093,20 @@ tcp_output(struct tcp_pcb *pcb)
         useg = seg;
       /* unacked list is not empty? */
       } else {
-        //fix for possible bug in LWIP - not sure what is going wrong... 
+        //fix for possible bug in LWIP - not sure what is going wrong...
+        //also seeing this:
+        //assertion "unsent_oversize mismatch (pcb vs. last_unsent)" failed: file "/Users/Shared/src/interstacks/embeddedcode/tools/esp32/esp-idf/components/lwip/core/tcp_out.c", line 469, function: tcp_write\0d
+#if 0
+        { struct tcp_seg *p;
+          
+          printf("seg:%d\n",(int)seg);
+          for(p=pcb->unacked; p; p = p->next) {
+            printf("P:%d\n",(int)p);
+          }
+        }
+#endif
         if(!useg && seg == pcb->unacked) {
+          printf("\n\nTCP SEG PROBLEM\n\n");
           useg = seg;
         } else 
         /* In the case of fast retransmit, the packet should not go to the tail

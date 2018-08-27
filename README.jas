@@ -1,0 +1,9 @@
+add vendor branch:
+
+git remote add ...
+
+to merge in expressif changes:
+
+git fetch vendor
+git chekckout master
+git merge vendor/master
