@@ -127,7 +127,13 @@
 #else
 #define SMP_INCLUDED              FALSE
 #define BLE_PRIVACY_SPT           FALSE
-#endif  /* CONFIG_GATTC_ENABLE */
+#endif  /* CONFIG_SMP_ENABLE */
+
+#if (CONFIG_BT_SSP_ENABLE)
+#define BT_SSP_INCLUDED              TRUE
+#else
+#define BT_SSP_INCLUDED              FALSE
+#endif  /* CONFIG_BT_SSP_ENABLE */
 
 #if (CONFIG_BT_ACL_CONNECTIONS)
 #define MAX_ACL_CONNECTIONS  CONFIG_BT_ACL_CONNECTIONS
@@ -305,6 +311,16 @@
 
 #ifndef BTA_AV_CO_CP_SCMS_T
 #define BTA_AV_CO_CP_SCMS_T  FALSE//FALSE
+#endif
+
+#ifndef QUEUE_CONGEST_SIZE
+#define  QUEUE_CONGEST_SIZE    40
+#endif
+
+#ifndef CONFIG_BLE_HOST_QUEUE_CONGESTION_CHECK
+#define SCAN_QUEUE_CONGEST_CHECK  FALSE
+#else
+#define SCAN_QUEUE_CONGEST_CHECK  CONFIG_BLE_HOST_QUEUE_CONGESTION_CHECK
 #endif
 
 /* This feature is used to eanble interleaved scan*/
@@ -1145,6 +1161,20 @@
 #define SMP_LINK_TOUT_MIN               2
 #endif
 #endif
+
+/******************************************************************************
+**
+** BT_SSP
+**
+******************************************************************************/
+#ifndef BT_SSP_INCLUDED
+#define BT_SSP_INCLUDED         FALSE
+#endif
+
+#if BT_SSP_INCLUDED == TRUE && CLASSIC_BT_INCLUDED == FALSE
+#error "Can't have SSP without CLASSIC BT"
+#endif
+
 /******************************************************************************
 **
 ** SDP
